@@ -15,14 +15,22 @@ jobs:
       - name: Create .env file
         run: |
           touch .env
-          echo "${{ secrets.REACT_APP_AUTH_CLIENT_ID }}" > .env
+          echo "${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}" > .env
       - name: Sign in to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t front/aicc-react-todo-cicd .
+        run: docker build -t rommaniitedomum/front .
       - name: Push Docker Image
-        run: docker push front/aicc-react-todo-cicd:latest
+        run: docker push rommaniitedomum/front:latest
 
   deploy:
     needs: build
     runs-on: aws-ec2
+
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull marshallhch/tasks_front:latest
+      - name: Delete existing container
+        run: docker rm -f reactContainer
+      - name: Run container
+        run: docker run -d -p 80:80 --name reactContainer marshallhch/tasks_front
