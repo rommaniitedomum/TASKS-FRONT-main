@@ -29,8 +29,8 @@ jobs:
 
     steps:
       - name: Pull image from docker hub
-        run: docker pull marshallhch/tasks_front:latest
+        run: docker pull rommaniitedomum/front:latest
       - name: Delete existing container
         run: docker rm -f reactContainer
       - name: Run container
-        run: docker run -d -p 80:80 --name reactContainer marshallhch/tasks_front
+        run: docker run -d -p 80:80 --name reactContainer rommaniitedomum/front
