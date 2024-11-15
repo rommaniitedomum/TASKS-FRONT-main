@@ -11,7 +11,7 @@ COPY package.json .
 
 
 # Install the dependencies specified in package.json
-RUN npm install
+RUN npm install 
 
 
 # Copy the rest of the application files to the working directory
@@ -23,9 +23,9 @@ RUN npm run build
 
 
 # Use the official Nginx image based on Alpine Linux for serving the built React app
-FROM nginx:1.23-alpine
+FROM nginx:1.26.2-alpine
 
-
+ 
 # Set the working directory inside the container to the default Nginx HTML directory
 WORKDIR /usr/share/nginx/html
 
@@ -39,11 +39,11 @@ COPY --from=build /app/build /usr/share/nginx/html
 
 
 # Copy the Nginx configuration file
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/
 
 
 # Copy the built React app from the build stage to the Nginx HTML directory
-# COPY --from=build /app/build .
+COPY --from=build /app/build .
 
 
 # Expose port 80 to allow external access to the Nginx server
