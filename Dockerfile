@@ -1,5 +1,5 @@
 # Use the official Node.js image based on Alpine Linux for building the React app
-FROM node:alpine3.19 as build
+FROM node:alpine3.18 as build
 
 
 # Set the working directory inside the container to /app
