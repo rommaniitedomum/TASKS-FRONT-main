@@ -39,11 +39,11 @@ COPY --from=build /app/build /usr/share/nginx/html
 
 
 # Copy the Nginx configuration file
-# COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 
 # Copy the built React app from the build stage to the Nginx HTML directory
-# COPY --from=build /app/build .
+COPY --from=build /app/build .
 
 
 # Expose port 80 to allow external access to the Nginx server
