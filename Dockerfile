@@ -23,7 +23,7 @@ RUN npm run build
 
 
 # Use the official Nginx image based on Alpine Linux for serving the built React app
-FROM nginx:1.23-alpine
+FROM nginx:1.26.2-alpine
 
 
 # Set the working directory inside the container to the default Nginx HTML directory
