@@ -1,34 +1,34 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   DELETE_TASK_API_URL,
   GET_TASKS_API_URL,
   POST_TASK_API_URL,
   UPDATE_TASK_API_URL,
   UPDATE_COMPLETED_TASK_API_URL,
-} from "../../utils/apiUrl";
+} from "../../utills/apiUrl";
+
 import {
   deleteRequest,
   getRequest,
   postRequest,
   putRequest,
   patchRequest,
-} from "../../utils/requestMethods";
+} from "../../utills/requestMethods";
 
 const updateItemFetchThunk = (actionType, apiURL) => {
   return createAsyncThunk(actionType, async (updateData) => {
+    console.log(updateData);
     const options = {
       body: JSON.stringify(updateData),
     };
-
     return await putRequest(apiURL, options);
   });
 };
 
-// update item data
 export const fetchUpdateItemData = updateItemFetchThunk(
-  "fetchUpdateItem", // action type
+  "fetchUpdateItems",
   UPDATE_TASK_API_URL // 요청 url
-); // thunk 함수 호출
+);
 
 const getItemsFetchThunk = (actionType, apiURL) => {
   return createAsyncThunk(actionType, async (userId) => {
@@ -38,11 +38,48 @@ const getItemsFetchThunk = (actionType, apiURL) => {
   });
 };
 
-// get items data
 export const fetchGetItemsData = getItemsFetchThunk(
   "fetchGetItems", // action type
   GET_TASKS_API_URL // 요청 url
-); // thunk 함수 호출
+);
+
+const postItemsFetchThunk = (actionType, apiURL) => {
+  return createAsyncThunk(actionType, async (postData) => {
+    // console.log(postData);
+    const options = {
+      body: JSON.stringify(postData),
+    };
+    return await postRequest(apiURL, options);
+  });
+};
+
+export const fetchPostItemData = postItemsFetchThunk(
+  "fetchPostItems",
+  POST_TASK_API_URL // 요청 url
+);
+
+
+const updateCompletedFetchThunk = (actionType, apiURL) => {
+  return createAsyncThunk(actionType, async (completedData) => {
+     console.log(completedData);
+
+    const options = {
+      Method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(completedData),
+    };
+    return await patchRequest(apiURL, options);
+  });
+};
+
+export const fetchUpdateCompletedData = updateCompletedFetchThunk(
+  "fetchupdateCompleteditem",
+  UPDATE_COMPLETED_TASK_API_URL // 요청 url
+);
+
+
 
 const deleteItemFetchThunk = (actionType, apiURL) => {
   return createAsyncThunk(actionType, async (id) => {
@@ -55,67 +92,29 @@ const deleteItemFetchThunk = (actionType, apiURL) => {
   });
 };
 
-// delete item
-export const fetchDeleteItemData = deleteItemFetchThunk(
-  "fetchDeleteItem",
-  DELETE_TASK_API_URL
-);
-
-// post thunk function 정의
-const postItemFetchThunk = (actionType, apiURL) => {
-  return createAsyncThunk(actionType, async (postData) => {
-    // console.log(postData);
-    const options = {
-      body: JSON.stringify(postData), // 표준 json 문자열로 변환
-    };
-    return await postRequest(apiURL, options);
-  });
-};
-
-// post item
-export const fetchPostItemData = postItemFetchThunk(
-  "fetchPostItem",
-  POST_TASK_API_URL
-);
-
-// update completed thunk function 정의
-const updateCompletedFetchThunk = (actionType, apiURL) => {
-  return createAsyncThunk(actionType, async (completedData) => {
-    console.log(completedData);
-
-    const options = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(completedData), // 표준 json 문자열로 변환
-    };
-    return await patchRequest(apiURL, options);
-  });
-};
-
-// update completed item
-export const fetchUpdateCompletedData = updateCompletedFetchThunk(
-  "fetchupdateCompletedItem",
-  UPDATE_COMPLETED_TASK_API_URL
-);
-
-// handleFulfilled 함수 정의 : 요청 성공 시 상태 업데이트 로직을 별도의 함수로 분리
 const handleFulfilled = (stateKey) => (state, action) => {
   state[stateKey] = action.payload; // action.payload에 응답 데이터가 들어있음
 };
 
-// handleRejected 함수 정의 : 요청 실패 시 상태 업데이트 로직을 별도의 함수로 분리
 const handleRejected = (state, action) => {
   console.log("Error", action.payload);
   state.isError = true;
 };
+//delete item
 
-// create slice
+export const fetchDeleteItemData = deleteItemFetchThunk(
+  "fetchDeleteItem", // action type
+  DELETE_TASK_API_URL
+);
+
+//post item
+
+//create slice
+
 const apiSlice = createSlice({
-  name: "apis", // slice 기능 이름
+  name: "apis", // slice 이름
   initialState: {
-    // 초기 상태 지정
+    // 초기상태
     getItemsData: null,
     deleteItemData: null,
     postItemData: null,
@@ -136,10 +135,7 @@ const apiSlice = createSlice({
       .addCase(fetchUpdateItemData.fulfilled, handleFulfilled("updateItemData"))
       .addCase(fetchUpdateItemData.rejected, handleRejected)
 
-      .addCase(
-        fetchUpdateCompletedData.fulfilled,
-        handleFulfilled("updateCompletedData")
-      )
+      .addCase(fetchUpdateCompletedData.fulfilled, handleFulfilled("updateCompletedData"))
       .addCase(fetchUpdateCompletedData.rejected, handleRejected);
   },
 }); // slice 객체 저장

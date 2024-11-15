@@ -1,9 +1,10 @@
-/* Tailwind Setting */
+/* tail wind */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Reset Style */
+/* Reset style */
 * {
   margin: 0;
   padding: 0;
@@ -57,7 +58,8 @@ body {
   border: 2px solid #ebf5fc;
 }
 
-/* Login Button Style */
+/* login btn  style*/
+
 .login-btn {
   position: relative;
 }
@@ -68,7 +70,7 @@ body {
 
 .login-btn button {
   position: absolute;
-  /* left: 0; */
+  left: 0;
   top: 0;
   z-index: 1;
 }
@@ -80,15 +82,16 @@ body {
   opacity: 0;
 }
 
-/* Item Button Style */
+/* Item button style */
+
 .item-btn {
   display: block;
-  padding: 0.25rem 1rem;
+  padding: 4px 16px;
   border-radius: 0.5rem;
   font-size: 0.75rem;
 }
 
-/* Post Input Modal Style */
+/* post input modal style */
 .input-control {
   position: relative;
   margin: 1.6rem 0;
@@ -122,6 +125,6 @@ body {
 
 .submit-btn {
   button {
-    color: #bbb;
+    color: #ccc;
   }
 }

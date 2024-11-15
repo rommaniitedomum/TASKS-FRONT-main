@@ -8,6 +8,8 @@ import Important from "./Important";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+
 const App = () => {
   return (
     <div className="App">
@@ -20,13 +22,13 @@ const App = () => {
         </Routes>
 
         <ToastContainer
-          position="top-center"
+          position="bottom-center"
           autoClose={1000}
           hideProgressBar={false}
           newestOnTop={false}
-          closeOnClick={false}
+          closeOnClick
           rtl={false}
-          pauseOnFocusLoss={false}
+          pauseOnFocusLoss
           draggable={false}
           pauseOnHover
           theme="dark"
